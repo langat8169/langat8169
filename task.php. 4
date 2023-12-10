@@ -1,0 +1,57 @@
+<?php
+$start_date = '2023-01-01';
+$end_date = '2023-12-31';
+
+
+$sql = "SELECT SUM(amount) AS total_received FROM Income WHERE date BETWEEN '$start_date' AND '$end_date'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $total_received = $row["total_received"];
+    echo "Total funds received between $start_date and $end_date: $total_received";
+} else {
+    echo "No funds received in the specified date range.";
+}
+
+$start_date = '2023-01-01';
+$end_date = '2023-12-31';
+
+
+$sql = "SELECT SUM(amount_spent) AS total_spent FROM Expenditure WHERE date BETWEEN '$start_date' AND '$end_date'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $total_spent = $row["total_spent"];
+    echo "Total funds spent between $start_date and $end_date: $total_spent";
+} else {
+    echo "No funds spent in the specified date range.";
+}
+
+$sql_total_expenditure = "SELECT SUM(amount_spent) AS total_spent FROM Expenditure";
+$result_total_expenditure = $conn->query($sql_total_expenditure);
+
+if ($result_total_expenditure->num_rows > 0) {
+    $row_total_expenditure = $result_total_expenditure->fetch_assoc();
+    $total_spent = $row_total_expenditure["total_spent"];
+} else {
+    $total_spent = 0;
+}
+
+// Retrieve total budget
+$sql_total_budget = "SELECT SUM(amount) AS total_budget FROM Ex_Category";
+$result_total_budget = $conn->query($sql_total_budget);
+
+if ($result_total_budget->num_rows > 0) {
+    $row_total_budget = $result_total_budget->fetch_assoc();
+    $total_budget = $row_total_budget["total_budget"];
+} else {
+    $total_budget = 0;
+}
+
+
+$spending_vs_budget = $total_spent / $total_budget * 100;
+echo "Actual spending vs. budget: $spending_vs_budget%";
+$conn->close();
+?>
