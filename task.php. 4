@@ -1,3 +1,6 @@
+<Html>
+<header>TASK 4 </header>
+<body>
 <?php
 $start_date = '2023-01-01';
 $end_date = '2023-12-31';
@@ -55,3 +58,5 @@ $spending_vs_budget = $total_spent / $total_budget * 100;
 echo "Actual spending vs. budget: $spending_vs_budget%";
 $conn->close();
 ?>
+</body>
+</html>
