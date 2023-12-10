@@ -1,0 +1,43 @@
+<?php
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$dbname = "pfund_db";
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $source = $_POST['source'];
+    $amount = $_POST['amount'];
+    $date = $_POST['date'];
+    $details = $_POST['details'];
+
+    $sql = "INSERT INTO Income (source, amount, date, details) VALUES ('$source', '$amount', '$date', '$details')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+$conn->close();
+
+
+$sql = "SELECT * FROM Income";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    
+    while($row = $result->fetch_assoc()) {
+        echo "ID: " . $row["Id"]. " - Source: " . $row["source"]. " - Amount: " . $row["amount"]. " - Date: " . $row["date"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+?>
